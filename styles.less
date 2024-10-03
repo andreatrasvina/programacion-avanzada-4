@@ -1,0 +1,98 @@
+@background-color: #ffffff;
+@primary-color: #000000;
+@input-border-color: #cccccc;
+@text-color: #6e6e6e;
+@input-padding: 12px;
+@input-radius: 5px;
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: @background-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  width: 320px;
+  max-width: 320px;
+  padding: 30px;
+  background-color: @background-color;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+      font-weight: normal;
+      margin-bottom: 20px;
+    }
+
+    label {
+      align-self: flex-start;
+      font-size: 14px;
+      color: @text-color;
+      margin-top: 15px;
+    }
+
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: @input-padding;
+      border: 1px solid @input-border-color;
+      border-radius: @input-radius;
+      margin-top: 5px;
+      box-sizing: border-box;
+      &:focus {
+        border-color: @text-color;
+        outline: none;
+      }
+    }
+
+    .role {
+      width: 100%;
+      margin-top: 20px;
+      label {
+        display:flex;
+        margin-right: 10px;
+        font-size: 14px;
+        color: @text-color;
+        input {
+          margin-right: 5px;
+        }
+      }
+    }
+
+    button {
+      width: 100%;
+      margin-top: 25px;
+      padding: 12px;
+      background-color: @primary-color;
+      color: @background-color;
+      border: none;
+      border-radius: @input-radius;
+      cursor: pointer;
+      font-size: 14px;
+      letter-spacing: 1px;
+      &:hover {
+        background-color: #6e6e6e;
+      }
+    }
+
+    .forgot-password {
+      margin-top: 15px;
+      font-size: 12px;
+      a {
+        color: @primary-color;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
