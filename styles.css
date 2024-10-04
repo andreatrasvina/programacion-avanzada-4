@@ -21,15 +21,22 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.form-container form h2 {
-  font-weight: normal;
-  margin-bottom: 20px;
+.form-container form h1 {
+  font-weight: bold;
+  padding-bottom: 25px;
 }
-.form-container form label {
+.form-container form fieldset {
+  width: 100%;
+  color: #6e6e6e;
+  flex-direction: column;
+  border: none;
+}
+.form-container form legend {
   align-self: flex-start;
   font-size: 14px;
   color: #6e6e6e;
   margin-top: 15px;
+  font-weight: normal;
 }
 .form-container form input[type="email"],
 .form-container form input[type="password"] {
@@ -54,6 +61,21 @@ body {
   margin-right: 10px;
   font-size: 14px;
   color: #6e6e6e;
+}
+.form-container form .role label:nth-of-type(2) {
+  background-color: #fff0f8;
+}
+.form-container form .role label:nth-of-type(3) {
+  background-color: #ffddef;
+}
+.form-container form .role label:nth-of-type(4) {
+  background-color: #ffc2e2;
+}
+.form-container form .role label:nth-of-type(5) {
+  background-color: #ffa7d6;
+}
+.form-container form .role label:nth-of-type(6) {
+  background-color: #ff94cd;
 }
 .form-container form .role label input {
   margin-right: 5px;
@@ -83,4 +105,5 @@ body {
 }
 .form-container form .forgot-password a:hover {
   text-decoration: underline;
+  color: #ff1893;
 }
