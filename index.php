@@ -17,29 +17,38 @@
         </div>
   
         <div class="col-md-6 d-flex align-items-center justify-content-center">
-          <form class="w-75">
 
-            <div class="mb-4 text-center">
-                <img src="assets/images/logo.png" class="img-fluid mx-auto pb-5" width="250">
-            </div>
+        <div class="w-75">
 
-            <h2 class="pb-1">WELCOME TO REDBULL TEAM!</h2>
+          <div class="mb-4 text-center">
+            <img src="assets/images/logo.png" class="img-fluid mx-auto pb-5" width="250">
+          </div>
+
+          <h2 class="pb-1">WELCOME TO REDBULL TEAM!</h2>
+
+          <form method="POST" action="app/AuthController.php">
 
             <div class="mb-3">
-              <label for="exampleInputEmail1" class="form-label">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <label for="email" class="form-label">Email address</label>
+              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="email" required>
               <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
+
             <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1">
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" id="exampleInputPassword1" name="contrasena" required>
             </div>
+
             <div class="mb-3 form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+              <input type="checkbox" class="form-check-input" id="check" name="remember_me">
+              <label class="form-check-label" for="check">Check me out</label>
             </div>
+
             <button type="submit" class="btn btn-dark w-100">Submit</button>
+
+            <input type="hidden" name="action" value="access">
           </form>
+          
         </div>
       </div>
     </div>
