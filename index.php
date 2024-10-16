@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['error_message'])) {
+  echo '<div class="alert alert-danger alert-overlay" role="alert">' . $_SESSION['error_message'] . '</div>';
+  unset($_SESSION['error_message']);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -54,5 +63,25 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</body>
+
+    <script>
+setTimeout(function() {
+    var alertElement = document.querySelector('.alert');
+    if (alertElement) {
+        alertElement.style.display = 'none';
+    }
+}, 5000);
+
+//si hay o no
+const token = localStorage.getItem('user_token');
+
+if (token) {
+    console.log('Usuario autenticado, token presente:', token);
+} else {
+    console.log('No hay token, el usuario no ha iniciado sesión');
+}
+
+
+</script>
+  </body>
 </html>

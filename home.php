@@ -1,3 +1,11 @@
+<?php
+ session_start();
+
+  include_once("app/ProductController.php");
+  $productController = new ProductController();
+  $products = $productController->getAllProducts($_SESSION['api_token']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,53 +82,32 @@
             </nav>
 
             <main class="col-md-9 ms-sm-auto col-lg-10 px-4">
+              <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
 
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
-                   
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <img class="d-block w-50 mx-auto" src="assets/images/camisa1.jpg">
-                                <h5 class="card-title pt-3">Red Bull Racing F1 Men's 2023 Team Polo Shirt</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                <a href="details.html" class="btn btn-dark" role="button" aria-pressed="true">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
+                  <?php if (!empty($products)) : ?>
+                      <?php foreach ($products as $product) : ?>
+                          <div class="col">
+                              <div class="card">
+                                  <div class="card-body">
+                                      <!--img-->
+                                      <img class="d-block w-50 mx-auto" src="<?= $product->cover ?>">
 
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <img class="d-block w-50 mx-auto" src="assets/images/camisa1.jpg">
-                                <h5 class="card-title pt-3">Red Bull Racing F1 Men's 2023 Team Polo Shirt</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                <a href="details.html" class="btn btn-dark" role="button" aria-pressed="true">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
+                                      <!--nombre-->
+                                      <h5 class="card-title pt-3"><?= $product->name ?></h5>
 
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <img class="d-block w-50 mx-auto" src="assets/images/camisa1.jpg">
-                                <h5 class="card-title pt-3">Red Bull Racing F1 Men's 2023 Team Polo Shirt</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                <a href="details.html" class="btn btn-dark" role="button" aria-pressed="true">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
+                                      <!--descripcionn-->
+                                      <p class="card-text"><?= $product->description ?></p>
 
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body">
-                                <img class="d-block w-50 mx-auto" src="assets/images/camisa1.jpg">
-                                <h5 class="card-title pt-3">Red Bull Racing F1 Men's 2023 Team Polo Shirt</h5>
-                                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                                <a href="details.html" class="btn btn-dark" role="button" aria-pressed="true">Go somewhere</a>
-                            </div>
-                        </div>
-                    </div>
-                    
+                                      <!-- btn-->
+                                      <a href="details.php?id=<?= $product->id ?>" class="btn btn-dark" role="button" aria-pressed="true">Ver detalles</a>
+                                  </div>
+                              </div>
+                          </div>
+                      <?php endforeach; ?>
+                  <?php else : ?>
+                      <p>NO EXISTEN</p>
+                  <?php endif; ?>
+
                 </div>
             </main>
         </div>
