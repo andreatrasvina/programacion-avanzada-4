@@ -1,6 +1,5 @@
 <?php
  session_start();
-
   include_once("app/ProductController.php");
   $productController = new ProductController();
   $products = $productController->getAllProducts($_SESSION['api_token']);
@@ -99,8 +98,11 @@
                                       <p class="card-text"><?= $product->description ?></p>
 
                                       <!-- btn-->
-                                      <a href="details.php?id=<?= $product->id ?>" class="btn btn-dark" role="button" aria-pressed="true">Ver detalles</a>
-                                  </div>
+                                       <?php
+                                        echo '<a href="details.php?slug=' . $product->slug . '" class="btn btn-dark">Ver Detalles</a>';                                       
+                                        ?>
+
+                                    </div>
                               </div>
                           </div>
                       <?php endforeach; ?>

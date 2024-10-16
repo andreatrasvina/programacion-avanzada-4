@@ -1,3 +1,11 @@
+<?php
+session_start();
+include_once("app/ProductController.php");
+
+$productController = new ProductController();
+$product = $productController->getProduct($_GET['slug']);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,15 +90,11 @@
                   <div class="col-md-4">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
                       <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <img class="d-block w-50 mx-auto" src="assets/images/camisa1.jpg" alt="First slide">
-                        </div>
-                        <div class="carousel-item">
-                          <img class="d-block w-50 mx-auto" src="assets/images/camisa2.jpg" alt="Second slide">
-                        </div>
-                        <div class="carousel-item">
-                          <img class="d-block w-50 mx-auto" src="assets/images/camisa3.jpg" alt="Third slide">
-                        </div>
+                        
+                      <div class="carousel-item active">
+                        <img class="d-block w-50 mx-auto" src="<?= $product->cover ?>" alt="<?= $product->name ?>">
+                      </div>
+          
                       </div>
                       <a class="carousel-control-prev bg-dark rounded" href="#carouselExampleControls" role="button" data-bs-slide="prev">
                         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -104,11 +108,12 @@
                   </div>
               
                   <div class="col-md-6">
-                    <h2>Red Bull Racing F1 Men's 2023 Team Polo Shirt</h2>
-                    <p class="text-muted">$2,100</p>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Magni vel dolores blanditiis soluta cupiditate excepturi alias eligendi sint nisi iure cumque ad, corrupti quas deserunt saepe nemo quidem labore quisquam.</p>
+                    <h2>Detalles del producto: <?php echo $product->name; ?></h2>
+                    <p>Precio: <?php echo $product->price; ?></p>
+                    <p><?php echo $product->description; ?></p>
                     <a href="#" class="btn btn-dark" role="button" aria-pressed="true">Buy now</a>
-                    </div>
+                  </div>
+                  
                 </div>
 
                 <div>
