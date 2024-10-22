@@ -113,7 +113,6 @@ $product = $productController->getProduct($_GET['slug']);
                     <p><?php echo $product->description; ?></p>
                     <a href="#" class="btn btn-dark" role="button" aria-pressed="true">Buy now</a>
                   </div>
-                  
                 </div>
 
                 <div>

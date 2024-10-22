@@ -46,7 +46,8 @@
             </ul>
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
+              <button class="btn btn-outline-success me-3" type="submit">Search</button>
+              <a href="add.php" class="btn btn-success"t ype="submit">+</a>
             </form>
           </div>
         </div>
@@ -98,9 +99,17 @@
                                       <p class="card-text"><?= $product->description ?></p>
 
                                       <!-- btn-->
-                                       <?php
+                                      <?php
                                         echo '<a href="details.php?slug=' . $product->slug . '" class="btn btn-dark">Ver Detalles</a>';                                       
-                                        ?>
+                                      ?>
+
+                                      <div class="row">
+                                        <div class="col-sm-12 pt-3">
+                                          <a href="#" class="btn btn-success" role="button" aria-pressed="true">Borrar</a>
+                                          <a href="#" class="btn btn-danger" role="button" aria-pressed="true">Editar</a>
+                                        </div>
+                                      </div>
+
 
                                     </div>
                               </div>
