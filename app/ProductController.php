@@ -7,8 +7,8 @@ if(isset($_POST['action'])){
   switch($_POST['action']){
 
     case 'create_product':
-      $nombre = $_POST['name'];  // Asegúrate de que coincide con el nombre del campo
-      $slug = $_POST['slug'];     // Cambié 'slug' a 'slug'
+      $nombre = $_POST['name']; 
+      $slug = $_POST['slug'];    
       $description = $_POST['description'];
       $features = $_POST['features'];
 
@@ -87,11 +87,13 @@ class ProductController{
     ));
 
     $response = curl_exec($curl);
-    if (curl_errno($curl)) {
-        echo 'Error: ' . curl_error($curl);
-    } else {
-        echo 'Respuesta: ' . $response;
-    }
     curl_close($curl);
+
+    if (isset($response->code) && $response->code == 4) {
+      header('Location: ../home.php?status=ok');
+    }else{
+      header('Location: ../home.php?status=error');
+    }
+
   }
 }
