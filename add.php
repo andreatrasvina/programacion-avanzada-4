@@ -1,8 +1,8 @@
 <?php
- session_start();
-  include_once("app/ProductController.php");
-  $productController = new ProductController();
-  $products = $productController->getAllProducts($_SESSION['api_token']);
+session_start();
+include_once("app/ProductController.php");
+$productController = new ProductController();
+$products = $productController->getAllProducts($_SESSION['api_token']);
 ?>
 
 <!DOCTYPE html>
@@ -24,7 +24,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="/programacion-avanzada-4/home.php">Home</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
@@ -47,7 +47,7 @@
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success me-3" type="submit">Search</button>
-              <a href="add.php" class="btn btn-success"t ype="submit">+</a>
+              <a href="add.php" class="btn btn-success" type="submit">+</a>
             </form>
           </div>
         </div>
@@ -55,77 +55,45 @@
 
     <main class="col-lg-6 mx-auto px-4">
 
-        <form>
-            <div class="form-group row">
-                <label for="nameProduct" class="col-sm-2 col-form-label">Nombre</label>
-                <div class="col-sm-10 pb-4">
-                <input type="text" class="form-control" id="inputPassword" placeholder="Laptop negra HP">
-                </div>
+      <form method="POST" action="app/ProductController.php">
+
+        <input type="hidden" name="action" value="create_product">
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+            <div class="col-sm-10 pb-4">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Laptop negra HP" required>
             </div>
+        </div>
 
-            <div class="form-group row">
-                <label for="priceProduct" class="col-sm-2 col-form-label">Precio</label>
-                <div class="col-sm-10 pb-4">
-                <input type="text" class="form-control" id="priceProduct" placeholder="$19999">
-                </div>
+        <div class="form-group row">
+            <label for="slug" class="col-sm-2 col-form-label">Slug</label>
+            <div class="col-sm-10 pb-4">
+                <input type="text" class="form-control" id="slug" name="slug" placeholder="laptop-hp-negra-5" required>
             </div>
+        </div>
 
-            <div class="form-group row">
-                <label for="descriptionProduct" class="col-sm-2 col-form-label">Descripcion</label>
-                <div class="col-sm-10 pb-4">
-                <textarea type="text" class="form-control" id="descriptionProduct" placeholder="Este equipo contiene memoria ram de 32GB..." rows="3"></textarea>
-                </div>
+        <div class="form-group row">
+            <label for="description" class="col-sm-2 col-form-label">Descripción</label>
+            <div class="col-sm-10 pb-4">
+                <textarea class="form-control" id="description" name="description" placeholder="Este equipo contiene memoria RAM de 32GB..." rows="3" required></textarea>
             </div>
+        </div>
 
-            <div class="form-group row custom-control custom-checkbox">
-                <label for="descriptionProduct" class="col-sm-2 col-form-label">Etiquetas</label>
-                
-                <div class="col-sm-10 pb-4">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Lorem</label>
-
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Ipsum</label>
-
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Dolor</label>
-
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Sit</label>
-
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Amet</label>
-                </div>
+        <div class="form-group row">
+            <label for="features" class="col-sm-2 col-form-label">Features</label>
+            <div class="col-sm-10 pb-4">
+                <textarea class="form-control" id="features" name="features" placeholder="..." rows="3" required></textarea>
             </div>
+        </div>
 
-            <div class="form-group row custom-control custom-checkbox">
-                <label for="descriptionProduct" class="col-sm-2 col-form-label">Categorias</label>
-                
-                <div class="col-sm-10 pb-4">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Lorem</label>
+        <div class="form-group custom-file pb-4">
+            <input type="file" class="custom-file-input" id="cover" name="cover" lang="es">
+            <label class="custom-file-label" for="cover">Seleccionar Archivo</label>
+        </div>
 
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Ipsum</label>
-
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Dolor</label>
-
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Sit</label>
-
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Amet</label>
-                </div>
-            </div>
-
-            <div class="form-group custom-file pb-4">
-                <input type="file" class="custom-file-input" id="customFileLang" lang="es">
-                <label class="custom-file-label" for="customFileLang">Seleccionar Archivo</label>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Guardar producto</button>
-        </form>
+        <button type="submit" class="btn btn-primary">Guardar producto</button>
+      </form>
               
     </main>
 
