@@ -105,8 +105,8 @@
 
                                       <div class="row">
                                         <div class="col-sm-12 pt-3">
-                                          <a href="#" class="btn btn-success" role="button" aria-pressed="true">Borrar</a>
-                                          <a href="edit.php" class="btn btn-danger" role="button" aria-pressed="true">Editar</a>
+                                          <a href="#" class="btn btn-success" role="button" aria-pressed="true">Editar</a>
+                                          <a href="edit.php" class="btn btn-danger" role="button" aria-pressed="true">Borrar</a>
                                         </div>
                                       </div>
 
