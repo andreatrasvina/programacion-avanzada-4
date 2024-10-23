@@ -112,9 +112,8 @@
                                   <div class="row pt-3">
                                       <div class="col-sm-12">
                                       <a href="update.php?id=<?= $product->id ?>" class="btn btn-success">Editar</a>
-
-
-                                          <a href="delete.php?id=<?= $product->id ?>" class="btn btn-danger btn-borrar">Borrar</a>
+                                      
+                                      <a href="delete.php?id=<?= $product->id ?>" class="btn btn-danger btn-borrar" onclick="return confirmDelete()">Borrar</a>
                                       </div>
                                   </div>
                               </div>
@@ -168,7 +167,12 @@
 </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
+    <script>
+  function confirmDelete() {
+      return confirm("¿Estás seguro de que deseas borrar este producto?");
+  }
+</script>
+
   <script>
   document.addEventListener('DOMContentLoaded', function() {
       const editButtons = document.querySelectorAll('.btn-editar');
