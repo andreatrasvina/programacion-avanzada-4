@@ -1,9 +1,13 @@
 <?php
 session_start();
 include_once("app/ProductController.php");
+include_once("app/BrandController.php");
 
 $productController = new ProductController();
+$brandController = new BrandController();
+
 $product = $productController->getProduct($_GET['slug']);
+$brands = $brandController->get();
 ?>
 
 <!DOCTYPE html>
@@ -111,8 +115,24 @@ $product = $productController->getProduct($_GET['slug']);
                     <h2>Detalles del producto: <?php echo $product->name; ?></h2>
                     <p>Precio: <?php echo $product->price; ?></p>
                     <p><?php echo $product->description; ?></p>
+                    
+                    <p>Brand: 
+                        <?php 
+                      
+                        $brandName = 'No disponible'; 
+                        if (isset($brands) && count($brands)) {
+                            foreach ($brands as $brand) {
+                                if ($brand->id == $product->brand_id) { 
+                                    $brandName = $brand->name;
+                                    break; 
+                                }
+                            }
+                        }
+                        echo $brandName; 
+                        ?>
+                    </p>
+                    
                     <a href="#" class="btn btn-dark" role="button" aria-pressed="true">Buy now</a>
-                  </div>
                 </div>
 
                 <div>

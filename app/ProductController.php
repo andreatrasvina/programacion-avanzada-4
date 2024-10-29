@@ -9,20 +9,25 @@ if(isset($_POST['action'])){
       $slug = $_POST['slug'];    
       $description = $_POST['description'];
       $features = $_POST['features'];
+      $brand_id = $_POST['brand_id'];
+
+      $cover = null;
+      if (isset($_FILES['cover']) && $_FILES['cover']['error'] == UPLOAD_ERR_OK) {
+          $cover = $_FILES['cover'];
+      }
 
       $productController = new ProductController();
-      $productController->create($nombre, $slug, $description, $features);
+      $productController->create($nombre, $slug, $description, $features, $cover, $brand_id);
       break;
 
-    case 'update':
-      $productId = $_POST['productId'];
-      $nombre = $_POST['nameEditar'];
-      $slug = $_POST['slugEditar'];
-      $description = $_POST['descriptionEditar'];
-      $features = $_POST['featuresEditar'];
-      
-      $productController = new ProductController();
-      $productController->editarProducto($productId, $nombre, $slug, $description, $features);
+      case 'update_product':
+        $nombre = $_POST['nombre'];
+        $slug = $_POST['slug'];
+        $description = $_POST['description'];
+        $features = $_POST['features'];
+        $product_id = $_POST['product_id'];
+        $producController = new ProducController();
+        $producController->update($nombre,$slug,$description,$features,$product_id);
       break;
   }
 }
@@ -69,69 +74,72 @@ class ProductController {
     return $decodedResponse ? $decodedResponse->data : null;
   }
 
-  function create($nombre, $slug, $description, $features) {
+  function create($nombre, $slug, $description, $features, $cover, $brand_id) {
     $curl = curl_init();
+    $data = [
+        'name' => $nombre,
+        'slug' => $slug,
+        'description' => $description,
+        'features' => $features,
+        'brand_id' => $brand_id,
+    ];
+
+    if ($cover) {
+        $data['cover'] = new CURLFile($cover['tmp_name'], $cover['type'], $cover['name']);
+    }
     curl_setopt_array($curl, array(
         CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array(
-            'name' => $nombre,
-            'slug' => $slug,
-            'description' => $description,
-            'features' => $features
-        ),
+        CURLOPT_POSTFIELDS => $data,
         CURLOPT_HTTPHEADER => array(
-            'Authorization: Bearer ' . $_SESSION['api_token'], 
+            'Authorization: Bearer ' . $_SESSION['api_token'],
         ),
     ));
 
     $response = curl_exec($curl);
+    $err = curl_error($curl);
     curl_close($curl);
-
-    $decodedResponse = json_decode($response);
-    
-    if (isset($decodedResponse->code) && $decodedResponse->code == 4) {
-      header('Location: ../home.php?status=ok');
+  
+    if ($err) {
+        echo "cURL Error #:" . $err;
     } else {
-      header('Location: ../home.php?status=error');
+        header("Location: ../home.php"); 
+        exit;
     }
   }
 
-  function editarProducto($productId, $name, $slug, $description, $features) {
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products/' . $productId,
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_FOLLOWLOCATION => true,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => 'POST',
-      CURLOPT_POSTFIELDS => http_build_query(array(
-        'id' => $productId,
-        'name' => $name,
-        'slug' => $slug,
-        'description' => $description,
-        'features' => $features
-      )),
-      CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer ' . $_SESSION['api_token'],
-        'Content-Type: application/json',
-      ),
-    ));
-
-    $response = curl_exec($curl);
-    curl_close($curl);
-
-    $decodedResponse = json_decode($response);
-
-    if ($decodedResponse && isset($decodedResponse->code) && $decodedResponse->code == 4) {
-        header("location: ../home.php?status=updated");
-    } else {
-        header("location: ../home.php?status=error");
-    }
-  }
+  public function update($nombre,$slug,$description,$features,$product_id)
+	{
+		$curl = curl_init();
+		curl_setopt_array($curl, array(
+		  CURLOPT_URL => 'https://crud.jonathansoto.mx/api/products',
+		  CURLOPT_RETURNTRANSFER => true,
+		  CURLOPT_ENCODING => '',
+		  CURLOPT_MAXREDIRS => 10,
+		  CURLOPT_TIMEOUT => 0,
+		  CURLOPT_FOLLOWLOCATION => true,
+		  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+		  CURLOPT_CUSTOMREQUEST => 'PUT',
+		  CURLOPT_POSTFIELDS => 'name='.$nombre.'&slug='.$slug.'&description='.$description.'&features='.$features.'&id='.$product_id,
+		  CURLOPT_HTTPHEADER => array(
+		    'Content-Type: application/x-www-form-urlencoded',
+		    'Authorization: Bearer '.$_SESSION['user_data']->token
+		  ),
+		));
+		
+		$response = curl_exec($curl); 
+		curl_close($curl);
+		$response = json_decode($response);
+		if (isset($response->code) && $response->code == 4) {
+			
+			header('Location: ../home.php?status=ok');
+		}else{
+			header('Location: ../home.php?status=error');
+		}
+	}
 
   function deleteProduct($productId) {
     $curl = curl_init();
@@ -157,6 +165,6 @@ class ProductController {
     } else {
         header("Location: ../home.php?status=error");
     }
-}
+  }
 }
 ?>

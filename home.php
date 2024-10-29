@@ -1,7 +1,10 @@
 <?php
  session_start();
   include_once("app/ProductController.php");
+  include_once("app/BrandController.php");
   $productController = new ProductController();
+  $brandController = new BrandController();
+  $brands = $brandController->get();
   $products = $productController->getAllProducts($_SESSION['api_token']);
 ?>
 
@@ -111,7 +114,9 @@
 
                                   <div class="row pt-3">
                                       <div class="col-sm-12">
-                                      <a href="update.php?id=<?= $product->id ?>" class="btn btn-success">Editar</a>
+                                      <button onclick='editar(this)' data-product='<?= json_encode($product)  ?>' data-bs-toggle="modal" data-bs-target="#updateModal" type="button" class="btn btn-warning">
+                                        Editar
+                                      </button>
                                       
                                       <a href="delete.php?id=<?= $product->id ?>" class="btn btn-danger btn-borrar" onclick="return confirmDelete()">Borrar</a>
                                       </div>
@@ -129,42 +134,78 @@
         </div>
     </div>
 
-    <!-- Modal Editar -->
-<div class="modal fade" id="modalEditar" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalEditarLabel">Editar Producto</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="formEditar" method="POST" action="app/ProductController.php">
-                    <div class="mb-3">
-                        <label for="nameEditar" class="form-label">Nombre del Producto</label>
-                        <input type="text" class="form-control" id="nameEditar" name="nameEditar" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="slugEditar" class="form-label">Slug</label>
-                        <input type="text" class="form-control" id="slugEditar" name="slugEditar" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="descriptionEditar" class="form-label">Descripción</label>
-                        <textarea class="form-control" id="descriptionEditar" name="descriptionEditar" rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="featuresEditar" class="form-label">Features</label>
-                        <input type="text" class="form-control" id="featuresEditar" name="featuresEditar" required>
-                    </div>
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h1 class="modal-title fs-5" id="exampleModalLabel">
+	        	Editar producto
+	        </h1>
+	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+	      </div>
+	      <div class="modal-body">
+	        <form method="POST" action="app/ProductController.php">
+			  
+			  <div class="mb-3">
+			    <label for="nombre" class="form-label">
+			    	Nombre
+			    </label>
+			    <input type="text" class="form-control" id="update_nombre" name="nombre" aria-describedby="emailHelp" required> 
+			  </div>
+			  
+			  <div class="mb-3">
+			    <label for="slug" class="form-label">
+			    	Slug
+			    </label>
+			    <input type="text" class="form-control" id="update_slug" name="slug" required> 
+			  </div>
+			  <div class="mb-3">
+			    <label for="slug" class="form-label">
+			    	description
+			    </label>
+			    <input type="text" class="form-control" id="update_description" name="description" required> 
+			  </div>
+			  <div class="mb-3">
+			    <label for="slug" class="form-label">
+			    	features
+			    </label>
+			    <input type="text" class="form-control" id="update_features" name="features" required> 
+			  </div>
+			  
+			  <div class="mb-3">
+			    <label for="slug" class="form-label">
+			    	Marca
+			    </label>
+			    
+			    <select class="form-control">
+			    	<?php if (isset($brands) && count($brands)): ?>
+			    	<?php foreach ($brands as $brand): ?>
+			    	<option value="<?= $brand->id ?>">
+			    		<?= $brand->name ?>
+			    	</option>
+			    	<?php endforeach ?>
+			    	<?php endif ?>
+			    	
+			    </select>
+			  </div>
+			  
+			  <button type="submit" class="btn btn-primary">
+			  	Crear producto
+			  </button>
+			  <input type="hidden" name="action" value="update_product">
+				
+			  <input type="hidden" name="product_id" id="product_id">
+			</form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+	        	Cancelar
+	        </button> 
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
-                    <input type="hidden" id="productId" name="productId">
-                    <input type="hidden" name="action" value="update">
-
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script>
@@ -193,5 +234,22 @@
       });
   });
   </script>
+
+  <script type="text/javascript">
+		
+		function editar(boton)
+		{
+			let producto = JSON.parse(boton.dataset.product);
+			console.log(producto.id)
+			
+			document.getElementById("update_nombre").value = producto.name
+			document.getElementById("update_slug").value = producto.slug
+			document.getElementById("update_description").value = producto.description
+			document.getElementById("update_features").value = producto.features
+			document.getElementById("product_id").value = producto.id
+			
+		}
+  </script>
+
   </body>
 </html>

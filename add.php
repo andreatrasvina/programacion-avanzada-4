@@ -1,8 +1,11 @@
 <?php
 session_start();
 include_once("app/ProductController.php");
+include_once("app/BrandController.php");
 $productController = new ProductController();
+$brandController = new BrandController();
 $products = $productController->getAllProducts($_SESSION['api_token']);
+$brands = $brandController->get();
 ?>
 
 <!DOCTYPE html>
@@ -54,47 +57,59 @@ $products = $productController->getAllProducts($_SESSION['api_token']);
     </nav>
 
     <main class="col-lg-6 mx-auto px-4">
+        <form method="POST" action="app/ProductController.php" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="create_product">
 
-      <form method="POST" action="app/ProductController.php">
-
-        <input type="hidden" name="action" value="create_product">
-
-        <div class="form-group row">
-            <label for="name" class="col-sm-2 col-form-label">Nombre</label>
-            <div class="col-sm-10 pb-4">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Laptop negra HP" required>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+                <div class="col-sm-10 pb-4">
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Laptop negra HP" required>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label for="slug" class="col-sm-2 col-form-label">Slug</label>
-            <div class="col-sm-10 pb-4">
-                <input type="text" class="form-control" id="slug" name="slug" placeholder="laptop-hp-negra-5" required>
+            <div class="form-group row">
+                <label for="slug" class="col-sm-2 col-form-label">Slug</label>
+                <div class="col-sm-10 pb-4">
+                    <input type="text" class="form-control" id="slug" name="slug" placeholder="laptop-hp-negra-5" required>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label for="description" class="col-sm-2 col-form-label">Descripción</label>
-            <div class="col-sm-10 pb-4">
-                <textarea class="form-control" id="description" name="description" placeholder="Este equipo contiene memoria RAM de 32GB..." rows="3" required></textarea>
+            <div class="form-group row">
+                <label for="description" class="col-sm-2 col-form-label">Descripción</label>
+                <div class="col-sm-10 pb-4">
+                    <textarea class="form-control" id="description" name="description" placeholder="Este equipo contiene memoria RAM de 32GB..." rows="3" required></textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group row">
-            <label for="features" class="col-sm-2 col-form-label">Features</label>
-            <div class="col-sm-10 pb-4">
-                <textarea class="form-control" id="features" name="features" placeholder="..." rows="3" required></textarea>
+            <div class="form-group row">
+                <label for="features" class="col-sm-2 col-form-label">Features</label>
+                <div class="col-sm-10 pb-4">
+                    <textarea class="form-control" id="features" name="features" placeholder="..." rows="3" required></textarea>
+                </div>
             </div>
-        </div>
 
-        <div class="form-group custom-file pb-4">
-            <input type="file" class="custom-file-input" id="cover" name="cover" lang="es">
-            <label class="custom-file-label" for="cover">Seleccionar Archivo</label>
-        </div>
+            <div class="form-group row">
+                <label for="brand_id" class="col-sm-2 col-form-label">Brand</label>
+                <div class="col-sm-10 pb-4">
+                    <select class="form-control" id="brand_id" name="brand_id" required> 
+                        <?php if (isset($brands) && count($brands)): ?>
+                            <?php foreach ($brands as $brand): ?>
+                                <option value="<?= $brand->id ?>">
+                                    <?= $brand->name ?>
+                                </option>
+                            <?php endforeach ?>
+                        <?php endif ?>
+                    </select>
+                </div>
+            </div>
 
-        <button type="submit" class="btn btn-primary">Guardar producto</button>
-      </form>
-              
+            <div class="form-group custom-file pb-4">
+                <input type="file" class="custom-file-input" id="cover" name="cover" lang="es" required> 
+                <label class="custom-file-label" for="cover">Seleccionar Archivo</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Guardar producto</button>
+        </form>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
