@@ -1,6 +1,10 @@
 <?php
 session_start();
 
+if (!isset($_SESSION['global_token'])) {
+  $_SESSION['global_token'] = bin2hex(random_bytes(32));
+}
+
 if (isset($_SESSION['error_message'])) {
   echo '<div class="alert alert-danger alert-overlay" role="alert">' . $_SESSION['error_message'] . '</div>';
   unset($_SESSION['error_message']);
@@ -56,6 +60,7 @@ if (isset($_SESSION['error_message'])) {
             <button type="submit" class="btn btn-dark w-100">Submit</button>
 
             <input type="hidden" name="action" value="access">
+            <input type="hidden" name="global_token" value="<?php echo $_SESSION['global_token']; ?>"> 
           </form>
           
         </div>
