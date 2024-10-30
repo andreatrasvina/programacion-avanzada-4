@@ -110,7 +110,7 @@
                                   <p class="card-text"><?= $product->description ?></p>
 
                                   <!-- Botones -->
-                                  <a href="details.php?slug=<?= $product->slug ?>" class="btn btn-dark">Ver Detalles</a>
+                                  <a href="details/<?= $product->slug ?>" class="btn btn-dark">Ver Detalles</a>
 
                                   <div class="row pt-3">
                                       <div class="col-sm-12">

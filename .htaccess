@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /programacion-avanzada-4/
+
+RewriteRule ^details/([^/]+)/?$ details.php?slug=$1 [L,QSA]
+
+RewriteRule ^home/?$ home.php [L]
+RewriteRule ^product/([^/]+)/?$ product.php?slug=$1 [L]
+RewriteRule ^auth/?$ app/AuthController.php [L]
+RewriteRule ^resources/?$ app/ProductController.php [L]
